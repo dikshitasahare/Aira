@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIRA — Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#070B14; --surface:#0E1420; --border:rgba(108,99,255,0.2);
+    --primary:#6C63FF; --glow:rgba(108,99,255,0.3);
+    --accent:#00D4FF; --text:#E8EAF0; --muted:#6B7280;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.12;pointer-events:none;animation:float 8s ease-in-out infinite;}
+  .orb-1{width:500px;height:500px;background:#6C63FF;top:-150px;right:-100px;}
+  .orb-2{width:380px;height:380px;background:#00D4FF;bottom:-80px;left:-80px;animation-delay:-4s;}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-28px)}}
+  .grid{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(108,99,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,0.04) 1px,transparent 1px);background-size:60px 60px;}
+  .wrap{position:relative;z-index:1;width:100%;max-width:480px;padding:1.5rem;}
+  .logo{text-align:center;margin-bottom:1.75rem;}
+  .logo-icon{width:56px;height:56px;margin:0 auto .75rem;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 0 30px var(--glow);}
+  .logo h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;box-shadow:0 24px 64px rgba(0,0,0,0.5);}
+  .card-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;}
+  .card-sub{color:var(--muted);font-size:.85rem;margin:.2rem 0 1.5rem;}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .field{margin-bottom:1rem;}
+  label{display:block;font-size:.75rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;}
+  input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:.7rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:all .2s;}
+  input:focus{border-color:var(--primary);background:rgba(108,99,255,0.06);box-shadow:0 0 0 3px var(--glow);}
+  .btn{width:100%;margin-top:.5rem;padding:.82rem;background:linear-gradient(135deg,var(--primary),#8B5CF6);border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 18px var(--glow);}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--glow);}
+  .alert{padding:.7rem 1rem;border-radius:9px;margin-bottom:1.2rem;font-size:.85rem;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.3);color:#FF4D6D;}
+  .strength{height:3px;border-radius:3px;background:rgba(255,255,255,0.07);margin-top:.4rem;overflow:hidden;}
+  .strength-fill{height:100%;border-radius:3px;width:0;transition:all .3s;}
+  .divider{text-align:center;color:var(--muted);font-size:.8rem;position:relative;margin:1.4rem 0;}
+  .divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:rgba(255,255,255,0.06);}
+  .divider::before{left:0}.divider::after{right:0}
+  .foot{text-align:center;font-size:.875rem;color:var(--muted);}
+  .foot a{color:var(--primary);text-decoration:none;font-weight:500;}
+  .foot a:hover{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="grid"></div>
+
+<div class="wrap">
+  <div class="logo">
+    <div class="logo-icon">✦</div>
+    <h1>AIRA</h1>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Create your account</div>
+    <div class="card-sub">Join AIRA and start chatting with AI</div>
+
+    {% for msg in messages %}
+      <div class="alert">⚠ {{ msg }}</div>
+    {% endfor %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="row">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" name="first_name" placeholder="Jane" value="{{ request.POST.first_name }}">
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <input type="text" name="last_name" placeholder="Doe" value="{{ request.POST.last_name }}">
+        </div>
+      </div>
+      <div class="field">
+        <label>Username *</label>
+        <input type="text" name="username" placeholder="jane_doe" value="{{ request.POST.username }}" required>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="jane@example.com" value="{{ request.POST.email }}">
+      </div>
+      <div class="field">
+        <label>Password *</label>
+        <input type="password" name="password1" id="pw" placeholder="At least 6 characters" required oninput="strength(this.value)">
+        <div class="strength"><div class="strength-fill" id="sf"></div></div>
+      </div>
+      <div class="field">
+        <label>Confirm Password *</label>
+        <input type="password" name="password2" placeholder="Repeat password" required>
+      </div>
+      <button class="btn" type="submit">Create Account →</button>
+    </form>
+
+    <div class="divider">already have an account?</div>
+    <div class="foot"><a href="{% url 'accounts:login' %}">Sign in instead</a></div>
+  </div>
+</div>
+
+<script>
+function strength(pw) {
+  let s = 0;
+  if (pw.length >= 6)  s++;
+  if (pw.length >= 10) s++;
+  if (/[A-Z]/.test(pw)) s++;
+  if (/[0-9]/.test(pw)) s++;
+  if (/[^A-Za-z0-9]/.test(pw)) s++;
+  const colors = ['#FF4D6D','#FF8C42','#F9A825','#43B89C','#6C63FF'];
+  const fill = document.getElementById('sf');
+  fill.style.width  = (s * 20) + '%';
+  fill.style.background = colors[s - 1] || 'transparent';
+}
+</script>
+</body>
+</html>

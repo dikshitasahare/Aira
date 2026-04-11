@@ -1,0 +1,6 @@
+pip freeze > requirements.txt
+```
+
+**4. Create `runtime.txt`:**
+```
+python-3.11.0
