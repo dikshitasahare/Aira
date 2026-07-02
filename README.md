@@ -105,12 +105,6 @@ Building AIRA helped me gain practical experience in:
 
 ---
 
-## 🤝 Contributing
-
-Contributions, suggestions, and feature requests are welcome. Feel free to fork the repository and submit a pull request.
-
----
-
 https://github.com/user-attachments/assets/67697c85-67f6-467b-a033-3dacdc0bdb7c
 
 ## 📬 Feedback
